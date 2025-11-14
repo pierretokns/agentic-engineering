@@ -1,18 +1,169 @@
 #!/bin/bash
 
-# Setup Claude Code Agents with proper YAML frontmatter
+# Setup Claude Code Agents from ciign/agentic-engineering repository
 # This script creates a complete agent configuration structure for Claude Code
+# Based on: https://github.com/ciign/agentic-engineering
 
-echo "Creating Claude Code agents directory structure..."
+set -euo pipefail  # Exit on error, undefined vars, and pipe failures
 
-# Create base directory
-mkdir -p .claude/agents
+# Color codes for output
+readonly RED='\033[0;31m'
+readonly GREEN='\033[0;32m'
+readonly YELLOW='\033[1;33m'
+readonly BLUE='\033[0;34m'
+readonly NC='\033[0m' # No Color
 
-# Create full-stack-developer.md
-cat > .claude/agents/full-stack-developer.md << 'EOF'
----
+# Function to print colored output
+print_status() {
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+print_warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# Function to check if command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Function to download file from GitHub
+download_agent_file() {
+    local url="$1"
+    local output_file="$2"
+    local max_retries=3
+    local retry_count=0
+
+    while [ $retry_count -lt $max_retries ]; do
+        if curl --silent --fail --location --retry 2 --retry-delay 1 \
+                --user-agent "setup-script/1.0" \
+                --output "$output_file" \
+                "$url"; then
+            return 0
+        else
+            retry_count=$((retry_count + 1))
+            print_warning "Failed to download $output_file (attempt $retry_count/$max_retries)"
+            sleep 2
+        fi
+    done
+
+    print_error "Failed to download $output_file after $max_retries attempts"
+    return 1
+}
+
+# Function to create agent with error handling
+create_agent() {
+    local agent_name="$1"
+    local agent_content="$2"
+    local file_path=".claude/agents/${agent_name}.md"
+
+    if [ -f "$file_path" ]; then
+        print_warning "Agent file $file_path already exists. Creating backup..."
+        cp "$file_path" "${file_path}.backup.$(date +%Y%m%d_%H%M%S)"
+    fi
+
+    if echo "$agent_content" > "$file_path"; then
+        print_success "Created agent: $agent_name"
+    else
+        print_error "Failed to create agent: $agent_name"
+        return 1
+    fi
+}
+
+# Check if curl is available
+if ! command_exists curl; then
+    print_error "curl is required but not installed. Please install curl and try again."
+    exit 1
+fi
+
+# Print script header
+echo -e "${BLUE}"
+echo "=============================================="
+echo "  ciign/agentic-engineering Setup Script"
+echo "=============================================="
+echo -e "${NC}"
+echo "This script will set up 10 specialized Claude Code agents:"
+echo "• Full-stack Developer"
+echo "• Backend Specialist"
+echo "• Frontend Specialist"
+echo "• Code Reviewer"
+echo "• Debugger"
+echo "• DevOps Engineer"
+echo "• Test Writer"
+echo "• System Architect"
+echo "• Database Designer"
+echo "• Security Auditor"
+echo ""
+
+# Check if .claude directory already exists
+if [ -d ".claude" ]; then
+    print_warning ".claude directory already exists. Existing agents may be overwritten."
+    read -p "Do you want to continue? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        print_status "Setup cancelled by user."
+        exit 0
+    fi
+fi
+
+print_status "Creating Claude Code agents directory structure..."
+
+# Create base directory with error checking
+if ! mkdir -p .claude/agents; then
+    print_error "Failed to create .claude/agents directory"
+    exit 1
+fi
+
+# Base URL for raw files from GitHub
+readonly BASE_URL="https://raw.githubusercontent.com/ciign/agentic-engineering/main"
+
+# List of agents to create
+readonly AGENTS=(
+    "full-stack-developer"
+    "backend-specialist"
+    "frontend-specialist"
+    "code-reviewer"
+    "debugger"
+    "devops-engineer"
+    "test-writer"
+    "system-architect"
+    "database-designer"
+    "security-auditor"
+)
+
+print_status "Attempting to download pre-configured agents from GitHub..."
+
+# Try to download agents directly from GitHub
+download_success=true
+for agent in "${AGENTS[@]}"; do
+    agent_url="${BASE_URL}/.claude/agents/${agent}.md"
+    agent_file=".claude/agents/${agent}.md"
+
+    if download_agent_file "$agent_url" "$agent_file"; then
+        print_success "Downloaded: $agent"
+    else
+        print_warning "Failed to download $agent, will create from script"
+        download_success=false
+        break
+    fi
+done
+
+# If download failed, create agents from embedded content
+if [ "$download_success" = false ]; then
+    print_status "Downloading agents from repository failed. Creating agents from embedded configuration..."
+
+    # Create full-stack-developer.md
+    create_agent "full-stack-developer" '---
 name: full-stack-developer
-description: Use this agent for complete web application development spanning frontend, backend, and database layers. Examples include:\n\n<example>\nContext: User needs to build a new feature.\nuser: "I need to add a user dashboard with real-time notifications"\nassistant: "Let me use the full-stack-developer agent to implement this complete feature."\n<commentary>This requires coordinating frontend UI, backend APIs, and real-time websockets, making it ideal for the full-stack agent.</commentary>\n</example>\n\n<example>\nContext: User is starting a new project.\nuser: "I want to create a blog platform with comments and authentication"\nassistant: "I'll use the full-stack-developer agent to architect and build this application."\n<commentary>New project requiring all layers of the stack benefits from the full-stack agent's comprehensive approach.</commentary>\n</example>
+description: Use this agent for complete web application development spanning frontend, backend, and database layers. Examples include:\n\n<example>\nContext: User needs to build a new feature.\nuser: "I need to add a user dashboard with real-time notifications"\nassistant: "Let me use the full-stack-developer agent to implement this complete feature."\n<commentary>This requires coordinating frontend UI, backend APIs, and real-time websockets, making it ideal for the full-stack agent.</commentary>\n</example>\n\n<example>\nContext: User is starting a new project.\nuser: "I want to create a blog platform with comments and authentication"\nassistant: "I'\''ll use the full-stack-developer agent to architect and build this application."\n<commentary>New project requiring all layers of the stack benefits from the full-stack agent'\''s comprehensive approach.</commentary>\n</example>
 model: sonnet
 color: purple
 ---
@@ -47,17 +198,15 @@ You are an experienced full-stack developer specializing in building complete we
 
 ## Guidelines
 - Write self-documenting code with clear variable and function names
-- Add comments only when the "why" isn't obvious from the code
+- Add comments only when the "why" isn'\''t obvious from the code
 - Prefer composition over inheritance
 - Keep functions small and focused on a single responsibility
-- Write tests for critical business logic
-EOF
+- Write tests for critical business logic'
 
-# Create backend-specialist.md
-cat > .claude/agents/backend-specialist.md << 'EOF'
----
+    # Create backend-specialist.md
+    create_agent "backend-specialist" '---
 name: backend-specialist
-description: Use this agent for server-side development, API design, database optimization, and backend architecture. Examples include:\n\n<example>\nContext: User needs API design.\nuser: "Design a RESTful API for managing inventory with real-time updates"\nassistant: "I'll use the backend-specialist agent to design a scalable API architecture."\n<commentary>API design and real-time updates are core backend concerns requiring specialized expertise.</commentary>\n</example>\n\n<example>\nContext: Database performance issues.\nuser: "Our queries are slow and the database CPU is at 90%"\nassistant: "Let me use the backend-specialist agent to diagnose and optimize your database performance."\n<commentary>Database optimization requires deep backend knowledge of indexing, query planning, and performance tuning.</commentary>\n</example>
+description: Use this agent for server-side development, API design, database optimization, and backend architecture. Examples include:\n\n<example>\nContext: User needs API design.\nuser: "Design a RESTful API for managing inventory with real-time updates"\nassistant: "I'\''ll use the backend-specialist agent to design a scalable API architecture."\n<commentary>API design and real-time updates are core backend concerns requiring specialized expertise.</commentary>\n</example>\n\n<example>\nContext: Database performance issues.\nuser: "Our queries are slow and the database CPU is at 90%"\nassistant: "Let me use the backend-specialist agent to diagnose and optimize your database performance."\n<commentary>Database optimization requires deep backend knowledge of indexing, query planning, and performance tuning.</commentary>\n</example>
 model: sonnet
 color: blue
 ---
@@ -131,18 +280,16 @@ You are a backend engineering expert focused on building scalable, reliable, and
 
 ## Code Quality
 - Write self-documenting code
-- Handle errors explicitly, don't swallow them
+- Handle errors explicitly, don'\''t swallow them
 - Log at appropriate levels (ERROR, WARN, INFO, DEBUG)
 - Use structured logging for easier searching
 - Keep functions focused and small
-- Validate data at system boundaries
-EOF
+- Validate data at system boundaries'
 
-# Create frontend-specialist.md
-cat > .claude/agents/frontend-specialist.md << 'EOF'
----
+    # Create frontend-specialist.md
+    create_agent "frontend-specialist" '---
 name: frontend-specialist
-description: Use this agent for UI/UX implementation, frontend performance optimization, and client-side architecture. Examples include:\n\n<example>\nContext: Building user interfaces.\nuser: "Create a responsive data table with sorting, filtering, and pagination"\nassistant: "I'll use the frontend-specialist agent to build an optimized and accessible data table."\n<commentary>Complex UI components require frontend expertise in performance, accessibility, and user experience.</commentary>\n</example>\n\n<example>\nContext: Performance issues.\nuser: "Our React app is slow and the bundle size is 5MB"\nassistant: "Let me use the frontend-specialist agent to analyze and optimize your frontend performance."\n<commentary>Frontend performance optimization requires specialized knowledge of bundling, lazy loading, and rendering optimization.</commentary>\n</example>
+description: Use this agent for UI/UX implementation, frontend performance optimization, and client-side architecture. Examples include:\n\n<example>\nContext: Building user interfaces.\nuser: "Create a responsive data table with sorting, filtering, and pagination"\nassistant: "I'\''ll use the frontend-specialist agent to build an optimized and accessible data table."\n<commentary>Complex UI components require frontend expertise in performance, accessibility, and user experience.</commentary>\n</example>\n\n<example>\nContext: Performance issues.\nuser: "Our React app is slow and the bundle size is 5MB"\nassistant: "Let me use the frontend-specialist agent to analyze and optimize your frontend performance."\n<commentary>Frontend performance optimization requires specialized knowledge of bundling, lazy loading, and rendering optimization.</commentary>\n</example>
 model: sonnet
 color: green
 ---
@@ -224,14 +371,12 @@ You are a frontend engineering expert focused on building fast, accessible, and 
 - Use flexbox and grid for layouts
 - Avoid !important (proper specificity instead)
 - Keep specificity low
-- Use CSS containment for performance
-EOF
+- Use CSS containment for performance'
 
-# Create code-reviewer.md
-cat > .claude/agents/code-reviewer.md << 'EOF'
----
+    # Create code-reviewer.md
+    create_agent "code-reviewer" '---
 name: code-reviewer
-description: Use this agent for thorough code reviews focusing on bugs, security, performance, and best practices. Examples include:\n\n<example>\nContext: User has written new code.\nuser: "I've implemented user authentication, can you review it?"\nassistant: "I'll use the code-reviewer agent to perform a comprehensive security and quality review."\n<commentary>Authentication code requires careful review for security vulnerabilities and best practices.</commentary>\n</example>\n\n<example>\nContext: Pull request review.\nuser: "Review this PR that adds a new payment processing feature"\nassistant: "Let me use the code-reviewer agent to review for correctness, security, and maintainability."\n<commentary>Payment processing is critical functionality requiring thorough review.</commentary>\n</example>
+description: Use this agent for thorough code reviews focusing on bugs, security, performance, and best practices. Examples include:\n\n<example>\nContext: User has written new code.\nuser: "I'\''ve implemented user authentication, can you review it?"\nassistant: "I'\''ll use the code-reviewer agent to perform a comprehensive security and quality review."\n<commentary>Authentication code requires careful review for security vulnerabilities and best practices.</commentary>\n</example>\n\n<example>\nContext: Pull request review.\nuser: "Review this PR that adds a new payment processing feature"\nassistant: "Let me use the code-reviewer agent to review for correctness, security, and maintainability."\n<commentary>Payment processing is critical functionality requiring thorough review.</commentary>\n</example>
 model: sonnet
 color: red
 ---
@@ -248,7 +393,7 @@ You are a meticulous code reviewer focused on improving code quality, catching b
 ## Review Focus Areas
 
 ### Correctness
-- Does the code do what it's supposed to do?
+- Does the code do what it'\''s supposed to do?
 - Are there any logic errors or edge cases not handled?
 - Is error handling appropriate and complete?
 
@@ -269,7 +414,7 @@ You are a meticulous code reviewer focused on improving code quality, catching b
 - Is there adequate test coverage?
 
 ### Style & Standards
-- Does the code follow the project's style guide?
+- Does the code follow the project'\''s style guide?
 - Are there any inconsistencies with existing patterns?
 - Is documentation sufficient?
 
@@ -291,14 +436,12 @@ You are a meticulous code reviewer focused on improving code quality, catching b
 3. Test mental edge cases
 4. Check for security and performance implications
 5. Verify test coverage
-6. Provide summary and detailed feedback
-EOF
+6. Provide summary and detailed feedback'
 
-# Create debugger.md
-cat > .claude/agents/debugger.md << 'EOF'
----
+    # Create debugger.md
+    create_agent "debugger" '---
 name: debugger
-description: Use this agent for systematic bug diagnosis and resolution. Examples include:\n\n<example>\nContext: User encountering errors.\nuser: "Getting 'undefined is not a function' in production but works locally"\nassistant: "I'll use the debugger agent to systematically diagnose this environment-specific issue."\n<commentary>Environment-specific bugs require methodical debugging to identify differences between environments.</commentary>\n</example>\n\n<example>\nContext: Intermittent issues.\nuser: "Users report the app crashes sometimes but I can't reproduce it"\nassistant: "Let me use the debugger agent to help track down this intermittent issue."\n<commentary>Intermittent bugs require systematic approach to identify patterns and root causes.</commentary>\n</example>
+description: Use this agent for systematic bug diagnosis and resolution. Examples include:\n\n<example>\nContext: User encountering errors.\nuser: "Getting '\''undefined is not a function'\'' in production but works locally"\nassistant: "I'\''ll use the debugger agent to systematically diagnose this environment-specific issue."\n<commentary>Environment-specific bugs require methodical debugging to identify differences between environments.</commentary>\n</example>\n\n<example>\nContext: Intermittent issues.\nuser: "Users report the app crashes sometimes but I can'\''t reproduce it"\nassistant: "Let me use the debugger agent to help track down this intermittent issue."\n<commentary>Intermittent bugs require systematic approach to identify patterns and root causes.</commentary>\n</example>
 model: sonnet
 color: orange
 ---
@@ -317,7 +460,7 @@ You are a systematic debugging specialist who excels at identifying and fixing b
 ### 1. Reproduce the Issue
 - Understand the exact steps to reproduce
 - Identify the expected vs actual behavior
-- Determine if it's consistent or intermittent
+- Determine if it'\''s consistent or intermittent
 - Note the environment (OS, browser, versions)
 
 ### 2. Gather Information
@@ -331,7 +474,7 @@ You are a systematic debugging specialist who excels at identifying and fixing b
 - List possible causes based on symptoms
 - Prioritize based on likelihood and evidence
 - Consider recent changes first
-- Think about similar bugs you've seen
+- Think about similar bugs you'\''ve seen
 
 ### 4. Test Hypotheses
 - Use scientific method: one change at a time
@@ -374,14 +517,12 @@ You are a systematic debugging specialist who excels at identifying and fixing b
 - Explain the root cause
 - Detail the fix and why it works
 - Suggest preventive measures
-- Estimate confidence level in the fix
-EOF
+- Estimate confidence level in the fix'
 
-# Create devops-engineer.md
-cat > .claude/agents/devops-engineer.md << 'EOF'
----
+    # Create devops-engineer.md
+    create_agent "devops-engineer" '---
 name: devops-engineer
-description: Use this agent for CI/CD, infrastructure, deployment, monitoring, and operational tasks. Examples include:\n\n<example>\nContext: Setting up deployment.\nuser: "I need to deploy my Node.js app to AWS with auto-scaling"\nassistant: "I'll use the devops-engineer agent to set up your AWS infrastructure and deployment pipeline."\n<commentary>Infrastructure setup and deployment configuration require DevOps expertise.</commentary>\n</example>\n\n<example>\nContext: Monitoring and alerts.\nuser: "How do I set up monitoring for my microservices?"\nassistant: "Let me use the devops-engineer agent to design a comprehensive monitoring strategy."\n<commentary>Observability and monitoring setup is a core DevOps responsibility.</commentary>\n</example>
+description: Use this agent for CI/CD, infrastructure, deployment, monitoring, and operational tasks. Examples include:\n\n<example>\nContext: Setting up deployment.\nuser: "I need to deploy my Node.js app to AWS with auto-scaling"\nassistant: "I'\''ll use the devops-engineer agent to set up your AWS infrastructure and deployment pipeline."\n<commentary>Infrastructure setup and deployment configuration require DevOps expertise.</commentary>\n</example>\n\n<example>\nContext: Monitoring and alerts.\nuser: "How do I set up monitoring for my microservices?"\nassistant: "Let me use the devops-engineer agent to design a comprehensive monitoring strategy."\n<commentary>Observability and monitoring setup is a core DevOps responsibility.</commentary>\n</example>
 model: sonnet
 color: cyan
 ---
@@ -462,7 +603,7 @@ You are a DevOps specialist focused on automation, infrastructure, deployment, a
 ## Container Best Practices
 - Use official base images
 - Keep images small (multi-stage builds, alpine)
-- Don't run as root
+- Don'\''t run as root
 - Use specific version tags (avoid :latest)
 - Scan images for vulnerabilities
 - Set resource limits (CPU, memory)
@@ -485,14 +626,12 @@ You are a DevOps specialist focused on automation, infrastructure, deployment, a
 - Practice incident response (game days)
 - Implement gradual rollouts
 - Use canary analysis
-- Maintain staging environments
-EOF
+- Maintain staging environments'
 
-# Create test-writer.md
-cat > .claude/agents/test-writer.md << 'EOF'
----
+    # Create test-writer.md
+    create_agent "test-writer" '---
 name: test-writer
-description: Use this agent for creating comprehensive test suites including unit, integration, and end-to-end tests. Examples include:\n\n<example>\nContext: Adding test coverage.\nuser: "I need to add tests for my authentication service"\nassistant: "I'll use the test-writer agent to create comprehensive test coverage for your authentication."\n<commentary>Authentication is critical functionality requiring thorough test coverage.</commentary>\n</example>\n\n<example>\nContext: Test strategy.\nuser: "How should I test this complex React component?"\nassistant: "Let me use the test-writer agent to design an effective testing strategy."\n<commentary>Complex components require careful test design balancing coverage and maintainability.</commentary>\n</example>
+description: Use this agent for creating comprehensive test suites including unit, integration, and end-to-end tests. Examples include:\n\n<example>\nContext: Adding test coverage.\nuser: "I need to add tests for my authentication service"\nassistant: "I'\''ll use the test-writer agent to create comprehensive test coverage for your authentication."\n<commentary>Authentication is critical functionality requiring thorough test coverage.</commentary>\n</example>\n\n<example>\nContext: Test strategy.\nuser: "How should I test this complex React component?"\nassistant: "Let me use the test-writer agent to design an effective testing strategy."\n<commentary>Complex components require careful test design balancing coverage and maintainability.</commentary>\n</example>
 model: sonnet
 color: yellow
 ---
@@ -538,18 +677,18 @@ You are a testing specialist focused on creating comprehensive, maintainable tes
 ## Unit Testing Best Practices
 
 ### Structure (AAA Pattern)
-```
+\`\`\`
 // Arrange: Set up test data and conditions
 // Act: Execute the code being tested
 // Assert: Verify the results
-```
+\`\`\`
 
 ### Naming
 - Use descriptive test names that explain the scenario
-- Format: `should [expected behavior] when [condition]`
+- Format: \`should [expected behavior] when [condition]\`
 - Examples:
-  - `should return null when user not found`
-  - `should throw error when email is invalid`
+  - \`should return null when user not found\`
+  - \`should throw error when email is invalid\`
 
 ### Principles
 - One assertion per test (or closely related assertions)
@@ -604,10 +743,10 @@ You are a testing specialist focused on creating comprehensive, maintainable tes
 
 ### Guidelines
 - Aim for 80%+ coverage for critical code
-- Don't chase 100% (diminishing returns)
+- Don'\''t chase 100% (diminishing returns)
 - Focus on meaningful coverage (not just lines)
 - Use coverage to find untested code
-- Don't let coverage block important changes
+- Don'\''t let coverage block important changes
 
 ## Test Maintainability
 
@@ -621,14 +760,12 @@ You are a testing specialist focused on creating comprehensive, maintainable tes
 - Use descriptive variable names
 - Add comments for complex setup
 - Group related tests
-- Keep tests short and focused
-EOF
+- Keep tests short and focused'
 
-# Create system-architect.md
-cat > .claude/agents/system-architect.md << 'EOF'
----
+    # Create system-architect.md
+    create_agent "system-architect" '---
 name: system-architect
-description: Use this agent for high-level system design, architecture decisions, and technology selection. Examples include:\n\n<example>\nContext: Designing new system.\nuser: "We need to build a video streaming platform that can handle millions of users"\nassistant: "I'll use the system-architect agent to design a scalable streaming architecture."\n<commentary>Large-scale system design requires architectural expertise in distributed systems and scalability patterns.</commentary>\n</example>\n\n<example>\nContext: Architecture review.\nuser: "Should we use microservices or a monolith for our e-commerce platform?"\nassistant: "Let me use the system-architect agent to analyze the tradeoffs for your use case."\n<commentary>Architectural decisions require careful analysis of tradeoffs and long-term implications.</commentary>\n</example>
+description: Use this agent for high-level system design, architecture decisions, and technology selection. Examples include:\n\n<example>\nContext: Designing new system.\nuser: "We need to build a video streaming platform that can handle millions of users"\nassistant: "I'\''ll use the system-architect agent to design a scalable streaming architecture."\n<commentary>Large-scale system design requires architectural expertise in distributed systems and scalability patterns.</commentary>\n</example>\n\n<example>\nContext: Architecture review.\nuser: "Should we use microservices or a monolith for our e-commerce platform?"\nassistant: "Let me use the system-architect agent to analyze the tradeoffs for your use case."\n<commentary>Architectural decisions require careful analysis of tradeoffs and long-term implications.</commentary>\n</example>
 model: sonnet
 color: magenta
 ---
@@ -650,8 +787,8 @@ You are a senior systems architect who designs scalable, maintainable, and robus
 - **Separation of Concerns**: Keep different aspects of the system isolated
 - **Loose Coupling**: Minimize dependencies between components
 - **High Cohesion**: Keep related functionality together
-- **DRY (Don't Repeat Yourself)**: But not at the expense of coupling
-- **YAGNI (You Aren't Gonna Need It)**: Build what you need now
+- **DRY (Don'\''t Repeat Yourself)**: But not at the expense of coupling
+- **YAGNI (You Aren'\''t Gonna Need It)**: Build what you need now
 - **KISS (Keep It Simple)**: Simplicity should be a key goal
 
 ### System Design Considerations
@@ -677,7 +814,7 @@ You are a senior systems architect who designs scalable, maintainable, and robus
 - **Throughput**: Maximize requests handled per second
 - **Caching Strategy**: L1 (in-memory), L2 (Redis), CDN
 - **Database Optimization**: Indexes, query optimization, connection pooling
-- **Async Where Possible**: Don't block on I/O
+- **Async Where Possible**: Don'\''t block on I/O
 
 #### Security
 - **Defense in Depth**: Multiple layers of security
@@ -728,18 +865,16 @@ You are a senior systems architect who designs scalable, maintainable, and robus
 ## Architectural Decision Records (ADRs)
 
 Document important decisions:
-- **Context**: What's the situation?
+- **Context**: What'\''s the situation?
 - **Decision**: What did we decide?
 - **Consequences**: What are the implications?
 - **Alternatives Considered**: What else did we evaluate?
-- **Date & Status**: When and is it current?
-EOF
+- **Date & Status**: When and is it current?'
 
-# Create database-designer.md
-cat > .claude/agents/database-designer.md << 'EOF'
----
+    # Create database-designer.md
+    create_agent "database-designer" '---
 name: database-designer
-description: Use this agent for database schema design, query optimization, and data modeling. Examples include:\n\n<example>\nContext: Database design.\nuser: "Design a database schema for a multi-tenant SaaS application"\nassistant: "I'll use the database-designer agent to create an efficient multi-tenant schema."\n<commentary>Multi-tenant database design requires careful consideration of isolation, performance, and scalability.</commentary>\n</example>\n\n<example>\nContext: Query optimization.\nuser: "This query takes 30 seconds to run on our production database"\nassistant: "Let me use the database-designer agent to optimize this query performance."\n<commentary>Query optimization requires deep understanding of indexes, execution plans, and database internals.</commentary>\n</example>
+description: Use this agent for database schema design, query optimization, and data modeling. Examples include:\n\n<example>\nContext: Database design.\nuser: "Design a database schema for a multi-tenant SaaS application"\nassistant: "I'\''ll use the database-designer agent to create an efficient multi-tenant schema."\n<commentary>Multi-tenant database design requires careful consideration of isolation, performance, and scalability.</commentary>\n</example>\n\n<example>\nContext: Query optimization.\nuser: "This query takes 30 seconds to run on our production database"\nassistant: "Let me use the database-designer agent to optimize this query performance."\n<commentary>Query optimization requires deep understanding of indexes, execution plans, and database internals.</commentary>\n</example>
 model: sonnet
 color: brown
 ---
@@ -761,7 +896,7 @@ You are a database design expert who creates efficient, scalable, and maintainab
 - **3NF**: Remove transitive dependencies
 - **BCNF**: Every determinant is a candidate key
 
-**When to Normalize**: 
+**When to Normalize**:
 - Reduce data redundancy
 - Ensure data integrity
 - Minimize update anomalies
@@ -823,7 +958,7 @@ Use appropriate data types, indexes, and constraints for performance and data in
 - **Composite**: Multiple columns together
 
 ### Index Guidelines
-- Don't over-index (slows writes)
+- Don'\''t over-index (slows writes)
 - Index cardinality matters (high selectivity better)
 - Leftmost prefix for composite indexes
 - Monitor index usage and remove unused ones
@@ -845,7 +980,7 @@ Use appropriate data types, indexes, and constraints for performance and data in
 - **Reversible**: Write DOWN migrations
 - **Small Changes**: One logical change per migration
 - **Test First**: Test on staging with production-like data
-- **Zero Downtime**: 
+- **Zero Downtime**:
   - Add column (nullable or with default)
   - Deploy code that uses new column
   - Backfill data
@@ -867,14 +1002,12 @@ Use appropriate data types, indexes, and constraints for performance and data in
 - **Partitioning**: Split table into smaller tables
   - Range: By date ranges
   - Hash: By hash of key
-  - List: By specific values
-EOF
+  - List: By specific values'
 
-# Create security-auditor.md
-cat > .claude/agents/security-auditor.md << 'EOF'
----
+    # Create security-auditor.md
+    create_agent "security-auditor" '---
 name: security-auditor
-description: Use this agent for security reviews, vulnerability assessment, and implementing security best practices. Examples include:\n\n<example>\nContext: Security review.\nuser: "Review our user authentication and session management"\nassistant: "I'll use the security-auditor agent to perform a comprehensive security audit."\n<commentary>Authentication and session management are critical security components requiring expert review.</commentary>\n</example>\n\n<example>\nContext: Vulnerability found.\nuser: "We found user input being passed directly to SQL queries"\nassistant: "Let me use the security-auditor agent to assess and fix this SQL injection vulnerability."\n<commentary>SQL injection is a critical security vulnerability requiring immediate expert attention.</commentary>\n</example>
+description: Use this agent for security reviews, vulnerability assessment, and implementing security best practices. Examples include:\n\n<example>\nContext: Security review.\nuser: "Review our user authentication and session management"\nassistant: "I'\''ll use the security-auditor agent to perform a comprehensive security audit."\n<commentary>Authentication and session management are critical security components requiring expert review.</commentary>\n</example>\n\n<example>\nContext: Vulnerability found.\nuser: "We found user input being passed directly to SQL queries"\nassistant: "Let me use the security-auditor agent to assess and fix this SQL injection vulnerability."\n<commentary>SQL injection is a critical security vulnerability requiring immediate expert attention.</commentary>\n</example>
 model: sonnet
 color: red
 ---
@@ -955,32 +1088,93 @@ Always use parameterized queries and input validation to prevent SQL injection, 
 - [ ] Security headers configured
 - [ ] Dependencies up to date
 - [ ] Secrets in environment variables
-- [ ] Rate limiting implemented
-EOF
+- [ ] Rate limiting implemented'
+fi
 
+# Verify that agents were created successfully
+print_status "Verifying agent installation..."
+agent_count=0
+failed_agents=()
+
+for agent in "${AGENTS[@]}"; do
+    agent_file=".claude/agents/${agent}.md"
+    if [ -f "$agent_file" ] && [ -s "$agent_file" ]; then
+        agent_count=$((agent_count + 1))
+    else
+        failed_agents+=("$agent")
+    fi
+done
+
+# Check results
+if [ $agent_count -eq ${#AGENTS[@]} ]; then
+    print_success "All ${agent_count} agents created successfully!"
+else
+    print_error "Failed to create some agents: ${failed_agents[*]}"
+    exit 1
+fi
+
+# Create usage instructions
+cat > .claude/README.md << 'EOL'
+# Claude Code Agents
+
+This directory contains specialized Claude Code agents from the ciign/agentic-engineering repository.
+
+## Available Agents
+
+1. **full-stack-developer** - Complete web application development
+2. **backend-specialist** - Server-side development and APIs
+3. **frontend-specialist** - UI/UX and client-side development
+4. **code-reviewer** - Code quality and security reviews
+5. **debugger** - Systematic bug diagnosis and resolution
+6. **devops-engineer** - Infrastructure, deployment, and operations
+7. **test-writer** - Comprehensive testing strategies
+8. **system-architect** - High-level system design and architecture
+9. **database-designer** - Database design and optimization
+10. **security-auditor** - Security reviews and vulnerability assessment
+
+## Usage
+
+1. Start Claude Code from this project directory:
+   ```bash
+   claude
+   ```
+
+2. List available agents:
+   ```
+   /agents
+   ```
+
+3. Use an agent in conversation:
+   ```
+   @backend-specialist Help me design a RESTful API for user management
+   @security-auditor Review this authentication code for vulnerabilities
+   ```
+
+## Setup
+
+These agents were installed using the setup-ciign-agentic-engineering.sh script.
+To update or reinstall, run the script again from the project root.
+
+Source: https://github.com/ciign/agentic-engineering
+EOL
+
+# Final output
 echo ""
-echo "✅ Claude Code agents created successfully!"
+print_success "✅ Setup completed successfully!"
 echo ""
-echo "Directory structure:"
+echo -e "${BLUE}Directory structure created:${NC}"
 echo ".claude/"
-echo "└── agents/"
-echo "    ├── full-stack-developer.md"
-echo "    ├── backend-specialist.md"
-echo "    ├── frontend-specialist.md"
-echo "    ├── code-reviewer.md"
-echo "    ├── debugger.md"
-echo "    ├── devops-engineer.md"
-echo "    ├── test-writer.md"
-echo "    ├── system-architect.md"
-echo "    ├── database-designer.md"
-echo "    └── security-auditor.md"
+echo "├── agents/"
+for agent in "${AGENTS[@]}"; do
+    echo "│   ├── ${agent}.md"
+done
+echo "│   └── README.md"
 echo ""
-echo "To use these agents with Claude Code:"
-echo "1. Run this script in your project root"
-echo "2. Restart 'claude' in your terminal from the project directory"
-echo "3. Use '/agents' to see available agents"
-echo "4. Reference agents in conversations: '@backend-specialist help me design this API'"
+echo -e "${BLUE}Next steps:${NC}"
+echo "1. Restart 'claude' in your terminal from this project directory"
+echo "2. Run '/agents' to see available agents"
+echo "3. Reference agents in conversations: '@backend-specialist help design this API'"
 echo ""
-echo "Note: Agents are project-specific and only available when claude is started from this directory."
+echo -e "${YELLOW}Note:${NC} Agents are project-specific and only available when claude is started from this directory."
 echo ""
-echo "Happy coding! 🚀"
+echo -e "${GREEN}Happy coding! 🚀${NC}"
