@@ -1,97 +1,76 @@
-# Fast Claude Agents / Framework Setup
+# Agent Buffet - Additive Claude Code Setup
 
-## 🚀 Installation Commands
+## 🚀 Simple Installation
 
-Choose from these excellent Claude Code agent collections and frameworks:
+Install multiple agent frameworks additively. Each script clones a repo and moves `.claude` content without overwriting existing files.
 
-### **🎯 Development Agents (ciign/agentic-engineering)**
-Comprehensive development lifecycle agents - 10 specialized roles
 ```bash
-curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-claude-agents.sh | bash
-```
-**Agents:** full-stack-developer, backend-specialist, frontend-specialist, code-reviewer, debugger, devops-engineer, test-writer, system-architect, database-designer, security-auditor
+# 1. Development Agents (ciign/agentic-engineering) - 10 agents
+./setup-ciign-agentic-engineering.sh
 
-### **⚡ Skills Framework (obra/superpowers)**
-Evidence-based skills system with 21 proven techniques
-```bash
-curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-obra-superpowers.sh | bash
-```
-**Skills:** brainstorming, test-driven-development, systematic-debugging, root-cause-tracing, and 17 more
+# 2. Skills Framework (obra/superpowers) - 21 skills
+./setup-obra-superpowers.sh
 
-### **🏃‍♂️ Sprint Orchestrator (dimitritholen/gustav)**
-Agile development workflow manager with TDD methodology
-```bash
-curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-dimitritholen-gustav.sh | bash
-```
-**Commands:** /gustav:planner, /gustav:executor, /gustav:enhance, /gustav:validator, /gustav:velocity, /gustav:audit, /gustav:help
+# 3. Sprint Orchestrator (dimitritholen/gustav) - 7 commands
+./setup-dimitritholen-gustav.sh
 
-### **🔄 Infinite Loop System (disler/infinite-agentic-loop)**
-Parallel agent coordination for iterative content generation
-```bash
-curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-disler-infinite-agentic-loop.sh | bash
-```
-**Commands:** /infinite, /prime - For infinite generation workflows
+# 4. Infinite Loop System (disler/infinite-agentic-loop) - 2 commands
+./setup-disler-infinite-agentic-loop.sh
 
-### **🏗️ Enterprise Architecture (ruvnet/claude-flow)**
-64 specialized agents with hierarchical organization and swarm orchestration
-```bash
-curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-ruvnet-claude-flow.sh | bash
-```
-**Features:** Hybrid memory system, 25+ skills, MCP protocol integration, SPARC methodology
-
-
----
-
-## 🧪 Testing Instructions
-
-### Test Individual Setups
-```bash
-# Clear existing agents
-rm -rf .claude
-
-# Test each setup (choose one)
-curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-claude-agents.sh | bash
-
-# Verify installation
-ls -la .claude/agents/
+# 5. Enterprise Architecture (ruvnet/claude-flow) - 64+ agents
+./setup-ruvnet-claude-flow.sh
 ```
 
-### Test All Together
+**Additive**: Each script preserves existing content and adds new functionality.
+
+## 📋 What You Get
+
+- **10 specialized agents**: full-stack-developer, backend-specialist, frontend-specialist, code-reviewer, debugger, devops-engineer, test-writer, system-architect, database-designer, security-auditor
+- **No conflicts**: Each agent has its own focus and expertise
+- **Ready to use**: Restart Claude Code and start using agents immediately
+
+## 🎯 Usage Examples
+
 ```bash
-# Clear existing setup
-rm -rf .claude
-
-# Install all frameworks
-curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-claude-agents.sh | bash
-curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-obra-superpowers.sh | bash
-curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-dimitritholen-gustav.sh | bash
-curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-disler-infinite-agentic-loop.sh | bash
-curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-ruvnet-claude-flow.sh | bash
-
-# Verify all installed
-ls -la .claude/
-```
-
-### Usage After Installation
-```bash
-# Restart Claude Code in your project directory
+# Restart Claude Code from your project directory
 claude
 
-# List available agents/commands
+# List all available agents
 /agents
-/commands
+
+# Use any agent for specialized help
+@full-stack-developer help me build a user authentication system
+@backend-specialist design a REST API for this project
+@code-reviewer review this pull request for security issues
+@database-designer optimize this slow database query
 ```
 
----
+## 🔧 Other Frameworks (Advanced)
 
-## 📋 Framework Comparison
+The following frameworks exist but require more complex setup:
 
-| Framework | Type | Size | Focus | Best For |
-|-----------|------|------|-------|----------|
-| **ciign/agentic-engineering** | Agents | 10 agents | Complete development lifecycle | Full-stack projects |
-| **obra/superpowers** | Skills | 21 skills | Evidence-based techniques | Quality-focused development |
-| **dimitritholen/gustav** | Commands | 7 commands | Sprint/TDD workflows | Agile teams |
-| **disler/infinite-agentic-loop** | Commands | 2 commands | Parallel generation | Content creation |
-| **ruvnet/claude-flow** | Agents | 64+ agents | Enterprise architecture | Large-scale systems |
+- **obra/superpowers**: Plugin-based skills system (requires plugin marketplace)
+- **dimitritholen/gustav**: Sprint management (requires manual git clone)
+- **disler/infinite-agentic-loop**: Parallel agents (custom slash commands)
+- **ruvnet/claude-flow**: Enterprise architecture (npm global install)
 
-Choose the framework that best matches your development needs! 🚀
+**Recommendation**: Start with the ciign agents above. They provide 95% of what you need for development work.
+
+## 📋 Framework Details
+
+| Framework | Type | Count | Installation | Best For |
+|-----------|------|-------|--------------|----------|
+| **ciign/agentic-engineering** | Agents | 10 | ✅ Simple curl | Full-stack projects |
+| **obra/superpowers** | Skills | 21 | Plugin marketplace | Quality-focused dev |
+| **dimitritholen/gustav** | Commands | 7 | Manual git clone | Agile teams |
+| **disler/infinite-agentic-loop** | Commands | 2 | Custom slash cmd | Content creation |
+| **ruvnet/claude-flow** | Agents | 64+ | npm global install | Enterprise systems |
+
+## 🎯 Quick Start
+
+1. **Install agents**: `curl -sSL https://raw.githubusercontent.com/ciign/agentic-engineering/main/setup-claude-agents.sh | bash`
+2. **Restart Claude**: `claude`
+3. **List agents**: `/agents`
+4. **Use agents**: `@backend-specialist help design this API`
+
+That's it! You now have a complete development team at your fingertips. 🚀
