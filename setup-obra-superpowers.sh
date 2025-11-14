@@ -17,14 +17,9 @@ git clone https://github.com/obra/superpowers.git "$TEMP_DIR"
 # Create .claude directory if it doesn't exist
 mkdir -p .claude
 
-# Move .claude-plugin directory
+# Skip .claude-plugin directory (do not copy)
 if [[ -d "$TEMP_DIR/.claude-plugin" ]]; then
-    if [[ -d ".claude/.claude-plugin" ]]; then
-        echo "⚠️  .claude/.claude-plugin already exists, skipping"
-    else
-        echo "📁 Moving .claude-plugin to .claude/"
-        mv "$TEMP_DIR/.claude-plugin" .claude/
-    fi
+    echo "📁 Skipping .claude-plugin directory (excluded by policy)"
 fi
 
 # Move skills directory
