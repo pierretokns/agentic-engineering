@@ -17,33 +17,34 @@ cd agentic-engineering
 # Run the setup script
 chmod +x setup-claude-agents.sh
 ./setup-claude-agents.sh
+
+# Start Claude Code from your project directory
+claude
 ```
 
 That's it! The agents are now ready to use in your project.
 
 ## 📦 What's Included
 
-This repository contains 12 specialized agents covering every aspect of software development:
+This repository contains 10 specialized agents covering every aspect of software development:
 
-### 🏗️ Engineering Agents
-- **Full-Stack Developer** - Complete web application development from frontend to backend
-- **Backend Specialist** - Server-side systems, APIs, databases, and scalability
-- **Frontend Specialist** - User interfaces, accessibility, performance, and modern frameworks
-- **DevOps Engineer** - Infrastructure, CI/CD, deployment, and monitoring
+### 🏗️ Development Agents
+- **full-stack-developer** - Complete web application development from frontend to backend
+- **backend-specialist** - Server-side systems, APIs, databases, and scalability
+- **frontend-specialist** - User interfaces, accessibility, performance, and modern frameworks
 
 ### 🔍 Code Quality Agents
-- **Code Reviewer** - Comprehensive code reviews for correctness, security, and maintainability
-- **Debugger** - Systematic bug identification and fixing methodology
-- **Refactoring Specialist** - Improve code quality and reduce technical debt
+- **code-reviewer** - Comprehensive code reviews for correctness, security, and maintainability
+- **debugger** - Systematic bug identification and fixing methodology
+- **test-writer** - Comprehensive test suites across unit, integration, and E2E
 
-### 🎯 Architecture & Design
-- **System Architect** - Design scalable systems and make architectural decisions
-- **Database Designer** - Schema design, query optimization, and data modeling
+### 🎯 Architecture & Infrastructure
+- **system-architect** - Design scalable systems and make architectural decisions
+- **database-designer** - Schema design, query optimization, and data modeling
+- **devops-engineer** - Infrastructure, CI/CD, deployment, and monitoring
 
-### 🔒 Security & Documentation
-- **Security Auditor** - Identify vulnerabilities and implement security best practices
-- **Documentation Writer** - Technical documentation, APIs, guides, and tutorials
-- **Test Writer** - Comprehensive test suites across unit, integration, and E2E
+### 🔒 Security
+- **security-auditor** - Identify vulnerabilities and implement security best practices
 
 ## 💡 Usage Examples
 
@@ -74,15 +75,20 @@ This repository contains 12 specialized agents covering every aspect of software
 @test-writer add tests for user registration
 @code-reviewer review the implementation
 
-# Architecture planning
-@system-architect design the overall system
+# Backend development
+@backend-specialist design the API architecture
 @database-designer create the data model
 @security-auditor review security considerations
 
-# Code improvement
+# Debugging workflow
 @debugger help me fix this race condition
-@refactoring-specialist improve this complex function
-@documentation-writer document this API
+@code-reviewer verify the fix is correct
+@test-writer add tests to prevent regression
+
+# DevOps workflow
+@devops-engineer set up CI/CD pipeline
+@system-architect review the deployment architecture
+@security-auditor check for security misconfigurations
 ```
 
 ## 📁 Directory Structure
@@ -101,19 +107,87 @@ After running the setup script, you'll have:
     ├── test-writer.md
     ├── system-architect.md
     ├── database-designer.md
-    ├── security-auditor.md
-    ├── documentation-writer.md
-    └── refactoring-specialist.md
+    └── security-auditor.md
 ```
+
+## 🎨 Agent Visual Guide
+
+Each agent has a unique color in the Claude Code UI:
+
+| Agent | Color | Primary Focus |
+|-------|-------|---------------|
+| 🟣 full-stack-developer | Purple | End-to-end development |
+| 🔵 backend-specialist | Blue | Server-side engineering |
+| 🟢 frontend-specialist | Green | User interfaces & UX |
+| 🔴 code-reviewer | Red | Code quality & reviews |
+| 🟠 debugger | Orange | Bug fixing & diagnostics |
+| 🟡 test-writer | Yellow | Testing strategies |
+| 🟣 system-architect | Magenta | System design |
+| 🟤 database-designer | Brown | Data modeling |
+| 🔵 devops-engineer | Cyan | Infrastructure & deployment |
+| 🔴 security-auditor | Red | Security analysis |
 
 ## 🎓 Agent Capabilities
 
-Each agent includes:
-- **Clear Responsibilities** - Specific areas of expertise
-- **Technical Knowledge** - Frameworks, tools, and best practices
-- **Practical Patterns** - Code examples showing good vs. bad patterns
-- **Structured Approaches** - Step-by-step methodologies
-- **Communication Guidelines** - How the agent provides feedback
+### full-stack-developer
+- Complete web application development
+- Frontend + Backend + Database integration
+- Modern framework expertise (React, Node.js, etc.)
+- Best practices across the stack
+
+### backend-specialist
+- API design (REST, GraphQL, gRPC)
+- Database optimization and scaling
+- Microservices and distributed systems
+- Performance and reliability patterns
+
+### frontend-specialist
+- Responsive and accessible UI development
+- Modern frameworks (React, Vue, Angular)
+- Performance optimization (bundle size, lazy loading)
+- State management and component architecture
+
+### code-reviewer
+- Systematic code review methodology
+- Security vulnerability identification
+- Performance bottleneck detection
+- Constructive feedback with severity levels
+
+### debugger
+- Methodical debugging approach
+- Root cause analysis
+- Performance profiling
+- Bug prevention strategies
+
+### test-writer
+- Unit, integration, and E2E testing
+- Test-driven development (TDD)
+- Testing best practices and patterns
+- Coverage strategies
+
+### system-architect
+- Scalable system design
+- Architecture patterns (microservices, event-driven, etc.)
+- Technology selection and tradeoffs
+- Documentation of architectural decisions
+
+### database-designer
+- Schema design and normalization
+- Query optimization
+- Indexing strategies
+- Migration planning
+
+### devops-engineer
+- CI/CD pipeline design
+- Container orchestration (Docker, Kubernetes)
+- Infrastructure as Code (Terraform, CloudFormation)
+- Monitoring and observability
+
+### security-auditor
+- OWASP Top 10 vulnerability detection
+- Security best practices implementation
+- Penetration testing mindset
+- Compliance and security standards
 
 ## 🛠️ Requirements
 
@@ -133,28 +207,27 @@ Each agent includes:
 3. `@full-stack-developer` - Implement core features
 
 **Building Features**
-1. `@backend-specialist` or `@frontend-specialist` - Build the feature
+1. `@backend-specialist` or `@frontend-specialist` - Build specific layers
 2. `@test-writer` - Add comprehensive tests
 3. `@code-reviewer` - Review the implementation
 
-**Improving Existing Code**
-1. `@debugger` - Fix bugs
-2. `@refactoring-specialist` - Improve code quality
-3. `@security-auditor` - Check for vulnerabilities
-4. `@documentation-writer` - Update documentation
+**Fixing Issues**
+1. `@debugger` - Diagnose and fix bugs
+2. `@test-writer` - Add regression tests
+3. `@code-reviewer` - Verify the fix
 
 **Deployment & Operations**
 1. `@devops-engineer` - Set up CI/CD and infrastructure
 2. `@security-auditor` - Security review before deployment
-3. `@documentation-writer` - Create runbooks and deployment docs
+3. `@system-architect` - Review architecture for production readiness
 
 ### Tips for Best Results
 
 - **Be Specific**: Provide context about your project, tech stack, and requirements
-- **Combine Agents**: Use multiple agents for complex tasks
+- **Share Code**: Include relevant code snippets for better analysis
 - **Iterate**: Ask follow-up questions to refine solutions
-- **Share Context**: Include relevant code, error messages, or architectural diagrams
-- **Start Small**: Begin with one agent, then expand as needed
+- **Combine Agents**: Use multiple agents for comprehensive solutions
+- **Learn from Feedback**: Each agent provides educational insights
 
 ## 🤝 Contributing
 
@@ -170,11 +243,12 @@ Contributions are welcome! Here's how you can help:
 
 ### Ideas for New Agents
 - Mobile App Developer (iOS/Android)
-- Data Scientist / ML Engineer
+- Data Engineer (ETL, data pipelines)
+- ML/AI Engineer
 - Performance Optimizer
+- Documentation Writer
+- Refactoring Specialist
 - Accessibility Specialist
-- API Designer
-- Infrastructure as Code Specialist
 - Site Reliability Engineer
 
 ## 📄 License
