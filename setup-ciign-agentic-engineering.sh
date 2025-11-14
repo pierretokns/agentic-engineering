@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Setup Claude Code Agents from ciign/agentic-engineering repository
-# This script creates a complete agent configuration structure for Claude Code
-# Based on: https://github.com/ciign/agentic-engineering
+# Setup script for ciign/agentic-engineering
+# Clones repo, runs setup, then cleans up
 
 #!/bin/bash
 
