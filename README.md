@@ -1,287 +1,441 @@
 # Agentic Engineering 🤖
 
-A comprehensive collection of specialized AI agents for software development with Claude Code. These agents help you build better software faster by providing expert guidance across all aspects of development.
+A psychologically-balanced team of 12 specialized AI agents for software development with Claude Code. Based on **Jungian cognitive functions** to create optimal team dynamics for motivation, innovation, and delivery.
 
-**Transform your development workflow with AI-powered engineering specialists.**
+**Transform your development workflow with a complete AI-powered engineering team.**
 
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
-[![Claude Code](https://img.shields.io/badge/Claude-Code-blueviolet)](https://docs.claude.com/en/docs/claude-code)
+[![Claude Code](https://img.shields.io/badge/Claude-Code-blueviolet)](https://www.claude.com/product/claude-code)
+
+## 🧠 The Philosophy: Balanced Team Dynamics
+
+This agent system is built on **Carl Jung's cognitive functions** to create a psychologically balanced team:
+
+- **6 Worker Agents** (Sensing) - Practical execution and implementation
+- **6 Governance Agents** - Strategic direction and quality assurance
+  - 2 Vision (Intuition) - Strategy and architecture
+  - 3 Quality (Thinking) - Objective validation
+  - 1 Empathy (Feeling) - User-centered design
+
+This balance ensures:
+- ✅ **Vision** without losing touch with reality
+- ✅ **Quality** without perfectionism paralysis
+- ✅ **Execution** with strategic direction
+- ✅ **Empathy** balanced with objectivity
+
+📖 **See [TEAM_ARCHITECTURE.md](TEAM_ARCHITECTURE.md) for detailed team dynamics and collaboration patterns**
 
 ## 🚀 Quick Start
+
+### Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/ciign/agentic-engineering.git
 cd agentic-engineering
 
-# Run the setup script
-chmod +x setup-claude-agents.sh
+# Run the setup script in your project directory
 ./setup-claude-agents.sh
 
 # Start Claude Code from your project directory
 claude
 ```
 
-That's it! The agents are now ready to use in your project.
+The script will:
+- ✅ Copy `.claude-template/` to your project's `.claude/` directory
+- ✅ Back up any existing `.claude/` directory
+- ✅ Show you the team structure and usage tips
 
-## 📦 What's Included
+### One-Line Install (from anywhere)
 
-This repository contains 10 specialized agents covering every aspect of software development:
-
-### 🏗️ Development Agents
-- **full-stack-developer** - Complete web application development from frontend to backend
-- **backend-specialist** - Server-side systems, APIs, databases, and scalability
-- **frontend-specialist** - User interfaces, accessibility, performance, and modern frameworks
-
-### 🔍 Code Quality Agents
-- **code-reviewer** - Comprehensive code reviews for correctness, security, and maintainability
-- **debugger** - Systematic bug identification and fixing methodology
-- **test-writer** - Comprehensive test suites across unit, integration, and E2E
-
-### 🎯 Architecture & Infrastructure
-- **system-architect** - Design scalable systems and make architectural decisions
-- **database-designer** - Schema design, query optimization, and data modeling
-- **devops-engineer** - Infrastructure, CI/CD, deployment, and monitoring
-
-### 🔒 Security
-- **security-auditor** - Identify vulnerabilities and implement security best practices
-
-## 💡 Usage Examples
-
-### Single Agent
 ```bash
-# Get help from a specific agent
-@full-stack-developer build a REST API with authentication
-
-@frontend-specialist create a responsive dashboard with React
-
-@database-designer design a schema for an e-commerce platform
+curl -sSL https://raw.githubusercontent.com/ciign/agentic-engineering/main/setup-claude-agents.sh | bash
 ```
 
-### Multiple Agents
+## 👥 The Team: 6 + 6 Balance
+
+### 🔧 Worker Agents (Sensing - Execution)
+
+These agents **build** features through practical, detail-oriented implementation:
+
+| Agent | Color | Focus | Cognitive Function |
+|-------|-------|-------|-------------------|
+| **backend-specialist** | 🔵 Blue | Server-side APIs, databases, performance | Sensing |
+| **frontend-specialist** | 🟢 Green | UI implementation, accessibility, client-side | Sensing |
+| **database-designer** | 🟤 Brown | Schema design, query optimization, data modeling | Sensing |
+| **devops-engineer** | 🩵 Cyan | CI/CD, infrastructure, deployment, monitoring | Sensing |
+| **full-stack-developer** | 🟣 Purple | End-to-end features across all layers | Sensing |
+| **debugger** | 🟠 Orange | Bug diagnosis, root cause analysis, fixes | Sensing |
+
+### 🏛️ Governance Agents (Direction & Quality)
+
+These agents **guide** and **validate** work:
+
+#### Vision & Strategy (Intuition)
+| Agent | Color | Focus | Cognitive Function |
+|-------|-------|-------|-------------------|
+| **product-owner** | 🩵 Teal | Requirements, priorities, business value | Intuition + Feeling |
+| **system-architect** | 💜 Magenta | Technical architecture, patterns, scalability | Intuition |
+
+#### Quality Assurance (Thinking)
+| Agent | Color | Focus | Cognitive Function |
+|-------|-------|-------|-------------------|
+| **code-reviewer** | 🔴 Red | Code quality, maintainability, standards | Thinking |
+| **security-auditor** | 🔴 Red | Vulnerabilities, compliance, security | Thinking |
+| **test-writer** | 🟡 Yellow | Testing strategy, coverage, validation | Thinking |
+
+#### User Empathy (Feeling)
+| Agent | Color | Focus | Cognitive Function |
+|-------|-------|-------|-------------------|
+| **ux-designer** | 🩷 Pink | User research, accessibility, experience | Feeling |
+
+## 💡 How to Use the Agents
+
+### Understanding Agent Types
+
+**Worker Agents** → Execute tasks, build features, fix bugs
 ```bash
-# Combine agents for complex tasks
-@backend-specialist @database-designer create a scalable user service
-
-@code-reviewer @security-auditor review this authentication implementation
-
-@system-architect @devops-engineer design deployment architecture for microservices
+@backend-specialist implement user authentication API
+@frontend-specialist create a responsive dashboard
+@debugger fix this race condition
 ```
 
-### Workflow Examples
+**Governance Agents** → Define direction, ensure quality, validate work
 ```bash
-# Development workflow
-@full-stack-developer implement user registration
-@test-writer add tests for user registration
-@code-reviewer review the implementation
+@product-owner what features should we prioritize for MVP?
+@system-architect should we use microservices or monolith?
+@code-reviewer review this authentication implementation
+@ux-designer is this checkout flow intuitive?
+```
 
-# Backend development
-@backend-specialist design the API architecture
-@database-designer create the data model
-@security-auditor review security considerations
+### Complete Workflow Examples
 
-# Debugging workflow
-@debugger help me fix this race condition
-@code-reviewer verify the fix is correct
-@test-writer add tests to prevent regression
+#### 🆕 Building a New Feature
 
-# DevOps workflow
+```bash
+# 1. Define what to build (Vision)
+@product-owner I want to add real-time notifications
+# → Defines requirements, user stories, acceptance criteria
+
+# 2. Design the experience (Empathy)
+@ux-designer design the notification UI/UX
+# → Creates user flows, interaction patterns
+
+# 3. Design the architecture (Vision)
+@system-architect design the real-time notification system
+# → Defines technical approach (WebSockets, polling, etc.)
+
+# 4. Build it (Execution)
+@backend-specialist implement WebSocket notification service
+@frontend-specialist implement notification UI components
+# → Worker agents build the feature
+
+# 5. Validate quality (Quality)
+@code-reviewer review the notification implementation
+@security-auditor check for security issues
+@test-writer add comprehensive tests
+# → Governance agents ensure quality
+```
+
+#### 🐛 Debugging & Fixing Issues
+
+```bash
+# 1. Diagnose and fix (Execution)
+@debugger users report intermittent login failures
+# → Investigates, identifies root cause, implements fix
+
+# 2. Validate the fix (Quality)
+@test-writer add regression tests for the login fix
+@code-reviewer review the debugging fix
+# → Ensures fix is correct and won't regress
+```
+
+#### 🏗️ Starting a New Project
+
+```bash
+# 1. Define vision and requirements (Vision + Empathy)
+@product-owner define MVP scope for task management app
+@ux-designer research task management user needs
+
+# 2. Design architecture (Vision)
+@system-architect design scalable architecture for task app
+@database-designer design data model for tasks and users
+
+# 3. Execute implementation (Execution)
+@full-stack-developer implement core task CRUD features
 @devops-engineer set up CI/CD pipeline
-@system-architect review the deployment architecture
-@security-auditor check for security misconfigurations
+
+# 4. Ensure quality (Quality)
+@security-auditor review authentication and authorization
+@test-writer create comprehensive test suite
+@code-reviewer final review before deployment
 ```
 
-## 📁 Directory Structure
+#### 🚀 Deploying to Production
 
-After running the setup script, you'll have:
+```bash
+# 1. Prepare infrastructure (Execution)
+@devops-engineer set up production infrastructure on AWS
 
-```
-.claude/
-└── agents/
-    ├── full-stack-developer.md
-    ├── backend-specialist.md
-    ├── frontend-specialist.md
-    ├── code-reviewer.md
-    ├── debugger.md
-    ├── devops-engineer.md
-    ├── test-writer.md
-    ├── system-architect.md
-    ├── database-designer.md
-    └── security-auditor.md
+# 2. Security audit (Quality)
+@security-auditor perform pre-deployment security review
+
+# 3. Architecture validation (Vision)
+@system-architect review production architecture for scalability
+
+# 4. Final checks
+@code-reviewer verify deployment configuration
 ```
 
-## 🎨 Agent Visual Guide
+### Agent Collaboration Patterns
 
-Each agent has a unique color in the Claude Code UI:
+**Product Development Flow:**
+```
+product-owner → ux-designer → system-architect → worker agents → governance agents
+(what to build) (how users use it) (how to build it) (build it) (validate it)
+```
 
-| Agent | Color | Primary Focus |
-|-------|-------|---------------|
-| 🟣 full-stack-developer | Purple | End-to-end development |
-| 🔵 backend-specialist | Blue | Server-side engineering |
-| 🟢 frontend-specialist | Green | User interfaces & UX |
-| 🔴 code-reviewer | Red | Code quality & reviews |
-| 🟠 debugger | Orange | Bug fixing & diagnostics |
-| 🟡 test-writer | Yellow | Testing strategies |
-| 🟣 system-architect | Magenta | System design |
-| 🟤 database-designer | Brown | Data modeling |
-| 🔵 devops-engineer | Cyan | Infrastructure & deployment |
-| 🔴 security-auditor | Red | Security analysis |
+**Technical Decision Making:**
+```
+system-architect ←→ worker agents ←→ governance agents
+(provides patterns)  (implements)    (validates quality)
+```
 
-## 🎓 Agent Capabilities
+**Quality Assurance:**
+```
+worker agents → code-reviewer → security-auditor → test-writer
+(submit work)   (code quality)   (security)       (testing)
+```
 
-### full-stack-developer
-- Complete web application development
-- Frontend + Backend + Database integration
-- Modern framework expertise (React, Node.js, etc.)
-- Best practices across the stack
+## 📁 Project Structure
 
-### backend-specialist
-- API design (REST, GraphQL, gRPC)
-- Database optimization and scaling
-- Microservices and distributed systems
-- Performance and reliability patterns
+After running the setup script:
 
-### frontend-specialist
-- Responsive and accessible UI development
-- Modern frameworks (React, Vue, Angular)
-- Performance optimization (bundle size, lazy loading)
-- State management and component architecture
+```
+your-project/
+├── .claude/
+│   └── agents/
+│       ├── backend-specialist.md
+│       ├── frontend-specialist.md
+│       ├── database-designer.md
+│       ├── devops-engineer.md
+│       ├── full-stack-developer.md
+│       ├── debugger.md
+│       ├── product-owner.md
+│       ├── ux-designer.md
+│       ├── system-architect.md
+│       ├── code-reviewer.md
+│       ├── security-auditor.md
+│       └── test-writer.md
+└── [your project files]
+```
 
-### code-reviewer
-- Systematic code review methodology
-- Security vulnerability identification
-- Performance bottleneck detection
-- Constructive feedback with severity levels
+## 🎯 When to Use Which Agent
 
-### debugger
-- Methodical debugging approach
+### "What should we build?"
+- **@product-owner** - Requirements, priorities, business value
+- **@ux-designer** - User needs, experience design
+
+### "How should we structure it?"
+- **@system-architect** - Architecture, patterns, scalability
+- **@database-designer** - Data models, schema design
+
+### "Build the feature"
+- **@backend-specialist** - APIs, business logic, server-side
+- **@frontend-specialist** - UI, components, client-side
+- **@full-stack-developer** - Complete features end-to-end
+- **@database-designer** - Schemas, queries, migrations
+- **@devops-engineer** - Infrastructure, deployment
+
+### "Fix the bug"
+- **@debugger** - Diagnose and fix issues
+
+### "Is it good quality?"
+- **@code-reviewer** - Code quality, maintainability
+- **@security-auditor** - Security vulnerabilities
+- **@test-writer** - Test coverage, validation
+- **@ux-designer** - Usability, accessibility
+
+## 🎓 Agent Capabilities Deep Dive
+
+### Worker Agents (Sensing)
+
+Each worker agent embodies **practical, detail-oriented execution**:
+
+**backend-specialist**
+- API design (REST, GraphQL, gRPC, WebSockets)
+- Database optimization and query tuning
+- Authentication, authorization, session management
+- Caching strategies, message queues
+- Performance profiling and optimization
+
+**frontend-specialist**
+- Modern frameworks (React, Vue, Angular, Svelte)
+- Responsive design, mobile-first approach
+- Accessibility (WCAG AA/AAA compliance)
+- Performance optimization (lazy loading, code splitting)
+- State management patterns
+
+**database-designer**
+- Schema design and normalization
+- Index optimization strategies
+- Query performance tuning
+- Migration planning (zero-downtime)
+- Scaling strategies (sharding, partitioning)
+
+**devops-engineer**
+- CI/CD pipelines (GitHub Actions, GitLab CI)
+- Infrastructure as Code (Terraform, CloudFormation)
+- Container orchestration (Docker, Kubernetes)
+- Monitoring and observability (Prometheus, Grafana)
+- Security best practices for infrastructure
+
+**full-stack-developer**
+- End-to-end feature implementation
+- Cross-layer integration (UI → API → DB)
+- Holistic problem-solving
+- Full ownership of features
+
+**debugger**
+- Systematic debugging methodology
 - Root cause analysis
 - Performance profiling
+- Log analysis and tracing
 - Bug prevention strategies
 
-### test-writer
-- Unit, integration, and E2E testing
-- Test-driven development (TDD)
-- Testing best practices and patterns
-- Coverage strategies
+### Governance Agents
 
-### system-architect
+**product-owner** (Intuition + Feeling)
+- Product vision and strategy
+- Requirements gathering (user stories, acceptance criteria)
+- Backlog prioritization (RICE, MoSCoW, Value/Effort)
+- Stakeholder alignment
+- Metrics and OKRs
+
+**ux-designer** (Feeling)
+- User research and personas
+- Information architecture
+- Interaction design and prototyping
+- Accessibility and inclusive design
+- Usability testing
+
+**system-architect** (Intuition)
 - Scalable system design
-- Architecture patterns (microservices, event-driven, etc.)
+- Architectural patterns (microservices, event-driven, etc.)
 - Technology selection and tradeoffs
-- Documentation of architectural decisions
+- Performance and reliability planning
+- Architectural Decision Records (ADRs)
 
-### database-designer
-- Schema design and normalization
-- Query optimization
-- Indexing strategies
-- Migration planning
+**code-reviewer** (Thinking)
+- Code correctness and logic
+- Security vulnerability detection
+- Performance analysis
+- Maintainability assessment
+- Constructive feedback
 
-### devops-engineer
-- CI/CD pipeline design
-- Container orchestration (Docker, Kubernetes)
-- Infrastructure as Code (Terraform, CloudFormation)
-- Monitoring and observability
-
-### security-auditor
+**security-auditor** (Thinking)
 - OWASP Top 10 vulnerability detection
-- Security best practices implementation
+- Threat modeling
+- Security best practices (authentication, encryption, etc.)
+- Compliance (GDPR, SOC2, HIPAA)
 - Penetration testing mindset
-- Compliance and security standards
+
+**test-writer** (Thinking)
+- Test strategy (unit, integration, E2E)
+- Test-driven development (TDD)
+- Coverage analysis
+- Test maintainability
+- Continuous testing practices
 
 ## 🛠️ Requirements
 
-- [Claude Code](https://docs.claude.com/en/docs/claude-code) installed
+- [Claude Code](https://www.claude.com/product/claude-code) installed
 - Bash (for the setup script) - works on:
   - macOS
   - Linux
   - Windows (Git Bash, WSL, or Cygwin)
 
-## 📖 Best Practices
+## 📖 Additional Resources
 
-### When to Use Each Agent
+- **[TEAM_ARCHITECTURE.md](TEAM_ARCHITECTURE.md)** - Detailed team dynamics, Jungian cognitive functions, and collaboration patterns with visual diagrams
+- **[Claude Code Documentation](https://www.claude.com/product/claude-code)** - Official Claude Code docs
+- **Individual Agent Files** - Each agent's `.md` file contains their philosophy, approach, and expertise
 
-**Starting a New Project**
-1. `@system-architect` - Design the architecture
-2. `@database-designer` - Design the data model
-3. `@full-stack-developer` - Implement core features
+## 🎨 Design Philosophy
 
-**Building Features**
-1. `@backend-specialist` or `@frontend-specialist` - Build specific layers
-2. `@test-writer` - Add comprehensive tests
-3. `@code-reviewer` - Review the implementation
+This agent system is designed around **psychological balance**:
 
-**Fixing Issues**
-1. `@debugger` - Diagnose and fix bugs
-2. `@test-writer` - Add regression tests
-3. `@code-reviewer` - Verify the fix
+1. **Sensing (6 workers)** → Practical execution, present-focused, detail-oriented
+2. **Intuition (2 governance)** → Vision, patterns, future-oriented, strategic
+3. **Thinking (3 governance)** → Logical analysis, objective validation, standards
+4. **Feeling (1 governance)** → Empathy, values, user needs, human-centered
 
-**Deployment & Operations**
-1. `@devops-engineer` - Set up CI/CD and infrastructure
-2. `@security-auditor` - Security review before deployment
-3. `@system-architect` - Review architecture for production readiness
-
-### Tips for Best Results
-
-- **Be Specific**: Provide context about your project, tech stack, and requirements
-- **Share Code**: Include relevant code snippets for better analysis
-- **Iterate**: Ask follow-up questions to refine solutions
-- **Combine Agents**: Use multiple agents for comprehensive solutions
-- **Learn from Feedback**: Each agent provides educational insights
+This creates:
+- **Balance** between vision and execution
+- **Balance** between quality and velocity
+- **Balance** between user needs and technical constraints
+- **Balance** between innovation and stability
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how you can help:
+Contributions are welcome! When proposing new agents, consider:
 
-1. **Fork the repository**
-2. **Create a feature branch** (`git checkout -b feature/new-agent`)
-3. **Make your changes**
-4. **Test thoroughly**
-5. **Commit your changes** (`git commit -m 'Add new agent for X'`)
-6. **Push to the branch** (`git push origin feature/new-agent`)
-7. **Open a Pull Request**
+1. **Team balance** - Would this agent maintain the 6/6 worker/governance balance?
+2. **Cognitive function** - What Jungian function does it embody?
+3. **Unique value** - What unique expertise does it provide?
+4. **Collaboration** - How does it work with existing agents?
 
-### Ideas for New Agents
-- Mobile App Developer (iOS/Android)
-- Data Engineer (ETL, data pipelines)
-- ML/AI Engineer
-- Performance Optimizer
-- Documentation Writer
-- Refactoring Specialist
-- Accessibility Specialist
-- Site Reliability Engineer
+### How to Contribute
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/new-capability`)
+3. Update agents in `.claude-template/agents/`
+4. Test thoroughly
+5. Update documentation (README, TEAM_ARCHITECTURE.md)
+6. Submit a Pull Request
+
+### Ideas for Enhancements
+
+- **Industry-specific agents** (FinTech, Healthcare, E-commerce)
+- **Language-specific specialists** (Python, Go, Rust, TypeScript)
+- **Platform-specific agents** (Mobile, Desktop, Embedded)
+- **Advanced capabilities** (AI/ML, Data Engineering, Performance Optimization)
 
 ## 📄 License
 
-This project is released into the public domain under The Unlicense. You can do whatever you want with it - no attribution required!
+This project is released into the public domain under The Unlicense.
+
+You can:
+- ✅ Use commercially
+- ✅ Modify freely
+- ✅ Distribute
+- ✅ Use privately
+- ❌ No attribution required
+- ❌ No warranty provided
 
 See the [LICENSE](LICENSE) file for details or visit [unlicense.org](https://unlicense.org).
 
 ## 🙏 Acknowledgments
 
-- Built for use with [Claude Code](https://www.anthropic.com/claude/code)
-- Inspired by best practices from the software engineering community
-- Contributions and feedback from developers worldwide
+- Built for use with [Claude Code](https://www.claude.com/product/claude-code)
+- Based on Carl Jung's theory of cognitive functions
+- Inspired by best practices from high-performing software teams
+- Community contributions and feedback
 
 ## 📞 Support
 
 - **Issues**: [GitHub Issues](https://github.com/ciign/agentic-engineering/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/ciign/agentic-engineering/discussions)
-- **Documentation**: [Claude Code Docs](https://docs.claude.com/en/docs/claude-code)
+- **Documentation**: [Claude Code Docs](https://www.claude.com/product/claude-code)
 
 ## 🌟 Star History
 
-If you find this useful, please consider giving it a star! ⭐
+If you find this useful, please give it a star! ⭐
 
-## 📊 Project Stats
-
-![GitHub stars](https://img.shields.io/github/stars/ciign/agentic-engineering?style=social)
-![GitHub forks](https://img.shields.io/github/forks/ciign/agentic-engineering?style=social)
-![GitHub issues](https://img.shields.io/github/issues/ciign/agentic-engineering)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/ciign/agentic-engineering)
+Stars help others discover this project and motivate continued development.
 
 ---
 
 **Made with ❤️ for the developer community**
 
-*Happy coding with Claude Code! 🚀*
+*Experience the power of a psychologically-balanced AI engineering team! 🚀*
