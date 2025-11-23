@@ -4,29 +4,103 @@
 
 Install multiple agent frameworks additively. Each script clones a repo and moves `.claude` content without overwriting existing files.
 A psychologically-balanced team of 12 specialized AI agents for software development with Claude Code. Based on **Jungian cognitive functions** to create optimal team dynamics for motivation, innovation, and delivery.
+<div align="center">
 
-**Transform your development workflow with a complete AI-powered engineering team.**
+**A psychologically-balanced team of 12 specialized AI agents for software development with Claude Code.**
+
+*Based on **Jungian cognitive functions** to create optimal team dynamics for motivation, innovation, and delivery.*
 
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 [![Claude Code](https://img.shields.io/badge/Claude-Code-blueviolet)](https://www.claude.com/product/claude-code)
 
-## 🧠 The Philosophy: Balanced Team Dynamics
+</div>
+
+---
+
+## 🧠 The Philosophy: The Worker-Governance Pattern
+
+> ### **Agentic Pattern: The Worker-Governance Pattern**
+>
+> *"Equal Halves make the whole, neither side takes control."*
 
 This agent system is built on **Carl Jung's cognitive functions** to create a psychologically balanced team:
 
-- **6 Worker Agents** (Sensing) - Practical execution and implementation
-- **6 Governance Agents** - Strategic direction and quality assurance
-  - 2 Vision (Intuition) - Strategy and architecture
-  - 3 Quality (Thinking) - Objective validation
-  - 1 Empathy (Feeling) - User-centered design
+<table>
+<tr>
+<td width="50%" valign="top">
 
-This balance ensures:
+### 🔧 **WORKER AGENTS** (6)
+**Cognitive Function: Sensing**
+
+🔵 **Practical Execution**
+🔵 **Detail-Oriented**
+🔵 **Present-Focused**
+🔵 **Implementation**
+
+**Role:** Build features, fix bugs, execute tasks
+
+</td>
+<td width="50%" valign="top">
+
+### 🏛️ **GOVERNANCE AGENTS** (6)
+**Cognitive Functions: Mixed**
+
+💜 **Strategic Direction** (Intuition)
+🔴 **Quality Validation** (Thinking)
+🩷 **User Empathy** (Feeling)
+
+**Role:** Guide vision, ensure quality, validate work
+
+</td>
+</tr>
+</table>
+
+### The Balance:
+```
+6 Workers (Sensing)    +    6 Governance (Intuition + Thinking + Feeling)    =    12 Agents
+   ⚙️ Execution               🎯 Direction & Quality                            🎯 Complete Team
+```
+
+**This balance ensures:**
 - ✅ **Vision** without losing touch with reality
 - ✅ **Quality** without perfectionism paralysis
 - ✅ **Execution** with strategic direction
 - ✅ **Empathy** balanced with objectivity
+- ✅ **Neither side dominates** - equal collaboration
 
 📖 **See [TEAM_ARCHITECTURE.md](TEAM_ARCHITECTURE.md) for detailed team dynamics and collaboration patterns**
+
+---
+
+<div align="center">
+
+### 🎯 The Pattern in Action
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                                                                         │
+│  🔧 WORKERS (6)              ⚖️  BALANCE  ⚖️              🏛️ GOVERNANCE (6)  │
+│  ═══════════════                                         ═══════════════  │
+│                                                                         │
+│  🔵 Backend Specialist       ←─────────────→       💜 System Architect  │
+│  🟢 Frontend Specialist      ←─────────────→       🩷 UX Designer       │
+│  🟤 Database Designer        ←─────────────→       🩵 Product Owner     │
+│  🩵 DevOps Engineer          ←─────────────→       🔴 Code Reviewer     │
+│  🟣 Full-Stack Developer     ←─────────────→       🔴 Security Auditor  │
+│  🟠 Debugger                 ←─────────────→       🟡 Test Writer       │
+│                                                                         │
+│            EXECUTION                                    DIRECTION       │
+│            Implementation                               Validation      │
+│            Practical                                    Strategic       │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+*Neither side takes control. Equal halves make the whole.*
+
+</div>
+
+---
 
 ## 🚀 Quick Start
 

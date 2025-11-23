@@ -1,6 +1,18 @@
 # Agent Team Architecture
 
-This document describes the balanced 6/6 agent team based on Jungian psychology principles for optimal motivation and innovation.
+> ## **Agentic Pattern: The Worker-Governance Pattern**
+>
+> *"Equal Halves make the whole, neither side takes control."*
+
+This document describes the balanced 6/6 agent team based on **Jungian psychology principles** for optimal motivation and innovation.
+
+## Core Principle
+
+The **Worker-Governance Pattern** creates equilibrium between:
+- **6 Worker Agents** (Sensing) - Execution, implementation, practical building
+- **6 Governance Agents** (Intuition + Thinking + Feeling) - Vision, quality, validation
+
+Neither side dominates. Both sides collaborate. The whole emerges from equal halves.
 
 ## Team Balance: Worker Agents (Execution) ↔ Governance Agents (Quality & Direction)
 
