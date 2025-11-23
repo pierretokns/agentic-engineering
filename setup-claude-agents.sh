@@ -61,6 +61,17 @@ if [ ! -d "$TEMPLATE_DIR" ] || [ -z "$(ls -A "$TEMPLATE_DIR")" ]; then
     exit 1
 fi
 
+# Confirm user wants to proceed
+echo "This will set up Claude Code agents in your project's .claude directory."
+read -p "Do you want to set up .claude from .claude-template? (y/N): " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "Cancelled."
+    [ "$CLEANUP_TEMP" = true ] && rm -rf "$TEMP_DIR"
+    exit 0
+fi
+echo ""
+
 # Check if running in a git repository
 if [ ! -d ".git" ]; then
     echo "⚠️  Warning: Not in a git repository. Are you sure you want to continue?"
