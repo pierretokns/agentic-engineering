@@ -61,41 +61,12 @@ if [ ! -d "$TEMPLATE_DIR" ] || [ -z "$(ls -A "$TEMPLATE_DIR")" ]; then
     exit 1
 fi
 
-# Confirm user wants to proceed
-echo "This will set up Claude Code agents in your project's .claude directory."
-read -p "Do you want to set up .claude from .claude-template? (y/N): " -n 1 -r </dev/tty
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Cancelled."
-    [ "$CLEANUP_TEMP" = true ] && rm -rf "$TEMP_DIR"
-    exit 0
-fi
+echo "Setting up Claude Code agents in $(pwd)/.claude"
 echo ""
-
-# Check if running in a git repository
-if [ ! -d ".git" ]; then
-    echo "⚠️  Warning: Not in a git repository. Are you sure you want to continue?"
-    echo "   This script is meant to be run in your project directory."
-    read -p "   Continue anyway? (y/N): " -n 1 -r </dev/tty
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        echo "Cancelled."
-        [ "$CLEANUP_TEMP" = true ] && rm -rf "$TEMP_DIR"
-        exit 0
-    fi
-fi
 
 # Check if .claude already exists
 if [ -d "$TARGET_DIR" ]; then
-    echo "⚠️  .claude directory already exists!"
-    read -p "   Overwrite existing agents? (y/N): " -n 1 -r </dev/tty
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        echo "Cancelled. Your existing .claude directory was not modified."
-        [ "$CLEANUP_TEMP" = true ] && rm -rf "$TEMP_DIR"
-        exit 0
-    fi
-    echo "   Backing up existing .claude to .claude.backup..."
+    echo "⚠️  .claude directory already exists - backing up to .claude.backup"
     rm -rf .claude.backup
     mv .claude .claude.backup
 fi
