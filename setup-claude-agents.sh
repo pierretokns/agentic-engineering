@@ -1,22 +1,63 @@
 #!/bin/bash
 
 # Setup Claude Code Agents
-# This script copies the .claude-template to .claude for use with Claude Code
+# This script downloads and sets up .claude agents for use with Claude Code
 # Based on Jungian psychology principles for balanced team dynamics
 
 set -e  # Exit on error
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TEMPLATE_DIR="$SCRIPT_DIR/.claude-template"
+GITHUB_REPO="ciign/agentic-engineering"
+GITHUB_BRANCH="main"
 TARGET_DIR=".claude"
+TEMP_DIR=$(mktemp -d)
+CLEANUP_TEMP=false
 
 echo "🤖 Setting up Claude Code Agents..."
 echo ""
 
-# Check if template directory exists
-if [ ! -d "$TEMPLATE_DIR" ]; then
-    echo "❌ Error: Template directory not found at $TEMPLATE_DIR"
-    echo "   Please run this script from the agentic-engineering repository root."
+# Determine template location
+if [ -n "${BASH_SOURCE[0]}" ]; then
+    # Running as a script file
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    TEMPLATE_DIR="$SCRIPT_DIR/.claude-template"
+
+    if [ ! -d "$TEMPLATE_DIR" ]; then
+        echo "📥 Template not found locally, downloading from GitHub..."
+        TEMPLATE_DIR="$TEMP_DIR/.claude-template"
+        CLEANUP_TEMP=true
+
+        # Download template directory from GitHub
+        mkdir -p "$TEMPLATE_DIR"
+        curl -sSL "https://api.github.com/repos/$GITHUB_REPO/contents/.claude-template?ref=$GITHUB_BRANCH" | \
+            grep -o '"download_url": "[^"]*"' | \
+            sed 's/"download_url": "\(.*\)"/\1/' | \
+            while read url; do
+                if [ -n "$url" ] && [ "$url" != "null" ]; then
+                    filename=$(echo "$url" | sed "s|.*/.claude-template/||")
+                    mkdir -p "$TEMPLATE_DIR/$(dirname "$filename")"
+                    curl -sSL "$url" -o "$TEMPLATE_DIR/$filename"
+                fi
+            done
+    fi
+else
+    # Piped from curl, download from GitHub
+    echo "📥 Downloading agent templates from GitHub..."
+    TEMPLATE_DIR="$TEMP_DIR/.claude-template"
+    CLEANUP_TEMP=true
+
+    # Download the entire .claude-template directory structure
+    git clone --depth 1 --filter=blob:none --sparse "https://github.com/$GITHUB_REPO.git" "$TEMP_DIR/repo" 2>/dev/null
+    cd "$TEMP_DIR/repo"
+    git sparse-checkout set .claude-template
+    mv .claude-template "$TEMPLATE_DIR"
+    cd - > /dev/null
+    rm -rf "$TEMP_DIR/repo"
+fi
+
+# Verify template directory exists and has content
+if [ ! -d "$TEMPLATE_DIR" ] || [ -z "$(ls -A "$TEMPLATE_DIR")" ]; then
+    echo "❌ Error: Failed to obtain agent templates"
+    [ "$CLEANUP_TEMP" = true ] && rm -rf "$TEMP_DIR"
     exit 1
 fi
 
@@ -101,4 +142,10 @@ echo "   • Use system-architect for 'how to structure it'"
 echo "   • Use specialists (backend, frontend, etc.) for 'building it'"
 echo "   • Use reviewers (code, security, test) for 'validating quality'"
 echo ""
+
+# Cleanup temporary files
+if [ "$CLEANUP_TEMP" = true ]; then
+    rm -rf "$TEMP_DIR"
+fi
+
 echo "Happy coding! 🎉"
