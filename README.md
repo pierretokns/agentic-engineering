@@ -104,6 +104,9 @@ This agent system is built on **Carl Jung's cognitive functions** to create a ps
 ---
 
 ## 🚀 Quick Start
+## 🚀 Simple Installation
+
+Install multiple agent frameworks additively. Each script clones a repo and moves `.claude` content without overwriting existing files.
 
 ### Installation
 
@@ -245,7 +248,7 @@ The script will:
 ### One-Line Install (from anywhere)
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ciign/agentic-engineering/main/setup-claude-agents.sh | bash
+curl -sSL https://raw.githubusercontent.com/pierretokns/agentic-engineering/main/setup-claude-agents.sh | bash
 ```
 
 ## 👥 The Team: 6 + 6 Balance
@@ -623,8 +626,8 @@ See the [LICENSE](LICENSE) file for details or visit [unlicense.org](https://unl
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/ciign/agentic-engineering/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/ciign/agentic-engineering/discussions)
+- **Issues**: [GitHub Issues](https://github.com/pierretokns/agentic-engineering/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/pierretokns/agentic-engineering/discussions)
 - **Documentation**: [Claude Code Docs](https://www.claude.com/product/claude-code)
 
 ## 🌟 Star History
@@ -638,3 +641,4 @@ Stars help others discover this project and motivate continued development.
 **Made with ❤️ for the developer community**
 
 *Experience the power of a psychologically-balanced AI engineering team! 🚀*
+You're all set — pick a script from the repo root and use either the safe or quick pattern above.
